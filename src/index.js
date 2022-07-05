@@ -23,7 +23,7 @@ const onClickAdd = () => {
   const deleteButton = document.createElement("button");
   // イベントリスナ
   deleteButton.addEventListener("click", () => {
-    //　押された削除ボタンの親の親の親(li)を未完了リストから削除。
+    //　押された削除ボタンの親の親の親(li)を未完了リスト(ul)から削除。
     const deleteTarget = deleteButton.parentNode.parentNode.parentNode;
     document.getElementById("incomplete-list").removeChild(deleteTarget);
   });
