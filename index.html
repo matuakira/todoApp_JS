@@ -6,27 +6,38 @@
   </head>
 
   <body>
-    <div>
-      <input placeholder+"TODOを入力"/>
+    <div class="input-area">
+      <input placeholder="Input TODO item." />
       <button>Add</button>
     </div>
-    <div>
-      <p>Uncompleted TODO</p>
+    <div class="incomplete-area">
+      <p class="title">Incompleted TODO</p>
       <ul>
         <li>
-          <div>
-            <p>This is current TODO.</p>
-            <button>Complete</button>
-            <button>Delete</button>
+          <div class="list-row">
+            <p>
+              This is current TODO.
+              <button>Complete</button>
+              <button>Delete</button>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="list-row">
+            <p>
+              This is current TODO.
+              <button>Complete</button>
+              <button>Delete</button>
+            </p>
           </div>
         </li>
       </ul>
     </div>
-    <div>
-      <p>Completed TODO</p>
+    <div class="complete-area">
+      <p class="title">Completed TODO</p>
       <ul>
         <li>
-          <div>
+          <div class="list-row">
             <p>This is past TODO.</p>
             <button>Restore</button>
           </div>
