@@ -76,11 +76,6 @@ const onClickAdd = () => {
   document.getElementById("add-text").value = "";
 };
 
-// Completeボタン
-const defineCompleteButton = () => {};
-
-// DeletButton
-
 // 未完了リストから指定ノードを削除する
 const deleteFromIncompleteList = (target, id) => {
   document.getElementById("incomplete-list").removeChild(target);
