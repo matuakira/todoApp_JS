@@ -5,13 +5,10 @@ const onClickAdd = () => {
   const inputText = document.getElementById("add-text").value;
 
   // DOM操作・・・面倒くさい。
-  const li = document.createElement("li");
   const div = document.createElement("div");
   div.className = "list-row";
-  const p = document.createElement("p");
-  const div2 = document.createElement("div");
-  p.appendChild(div2);
-  p.innerText = inputText;
+  const li = document.createElement("li");
+  li.innerText = inputText;
 
   // Completeボタン生成。ここでイベントリスナも設定する。
   const completeButton = document.createElement("button");
@@ -19,38 +16,41 @@ const onClickAdd = () => {
   // イベントリスナ
   completeButton.addEventListener("click", () => {
     // ボタンが押された行を特定する。
-    const completeTarget = completeButton.parentNode.parentNode.parentNode;
-
+    const completeTarget = completeButton.parentNode;
     // ボタンが押された行のTODOの文字列を取得する。
-    const todoString =
-      completeButton.parentNode.parentNode.firstElementChild.innerText;
-    console.log(todoString);
+    const todoString = completeTarget.firstElementChild.innerText;
 
-    // 追加のための生成
-    const li = document.createElement("li");
-    const div = document.createElement("div");
-    div.className = "list-row";
-    const p = document.createElement("p");
-    p.innerText = todoString;
-
-    // Restoreボタン生成。イベントリスナも設定する。
-    const restoreButton = document.createElement("button");
-    restoreButton.innerText = "Restore";
-    //イベントリスナ
-    restoreButton.addEventListener("click", () => {
-      alert("restore!");
-    });
-
-    // Restoreボタンをpタグ配下に置く
-    p.appendChild(restoreButton);
-    //要素紐づけ
-    div.appendChild(p);
-    li.appendChild(div);
-
-    // CompletedなTODOの末尾に現在の行を追加する
-    document.getElementById("complete-list").appendChild(li);
-    // IncompletedなTODOリストから、ボタンが押された行を削除する。
     deleteFromIncompleteList(completeTarget);
+    // div以下を初期化する
+    completeTarget.textContent = null;
+
+    // Restoreボタン定義、イベントリスナ
+    const restoreButton = document.createElement("button");
+    restoreButton.addEventListener("click", () => {
+      const restoreTarget = restoreButton.parentNode;
+      const restoreString = restoreTarget.firstElementChild.innerText;
+
+      document.getElementById("complete-list").removeChild(restoreTarget);
+
+      restoreTarget.textContent = null;
+      const li = document.createElement("li");
+      li.innerText = restoreString;
+      restoreTarget.appendChild(li);
+      // CompleteボタンとDeleteボタンは再利用
+      restoreTarget.appendChild(completeButton);
+      restoreTarget.appendChild(deleteButton);
+
+      document.getElementById("incomplete-list").appendChild(restoreTarget);
+    });
+    restoreButton.innerText = "Restore";
+
+    const resLi = document.createElement("li");
+    resLi.innerText = todoString;
+
+    completeTarget.appendChild(resLi);
+    completeTarget.appendChild(restoreButton);
+
+    document.getElementById("complete-list").appendChild(completeTarget);
   });
 
   // Deleteボタン生成。ここでイベントリスナも設定する。
@@ -58,28 +58,31 @@ const onClickAdd = () => {
   // イベントリスナ
   deleteButton.addEventListener("click", () => {
     //　押された削除ボタンの親の親の親(li)を未完了リスト(ul)から削除。
-    const deleteTarget = deleteButton.parentNode.parentNode.parentNode;
+    const deleteTarget = deleteButton.parentNode;
     deleteFromIncompleteList(deleteTarget);
   });
   deleteButton.innerText = "Delete";
 
-  // pタグ配下に置く
-  p.appendChild(completeButton);
-  p.appendChild(deleteButton);
+  // divタグ配下に置く
+  div.appendChild(li);
+  div.appendChild(completeButton);
+  div.appendChild(deleteButton);
 
-  //要素紐づけ
-  div.appendChild(p);
-  li.appendChild(div);
-  console.log(li);
+  console.log(div);
   // 未完了TODOリストに追加
-  document.getElementById("incomplete-list").appendChild(li);
+  document.getElementById("incomplete-list").appendChild(div);
 
   // テキストボックス初期化
   document.getElementById("add-text").value = "";
 };
 
+// Completeボタン
+const defineCompleteButton = () => {};
+
+// DeletButton
+
 // 未完了リストから指定ノードを削除する
-const deleteFromIncompleteList = (target) => {
+const deleteFromIncompleteList = (target, id) => {
   document.getElementById("incomplete-list").removeChild(target);
 };
 
